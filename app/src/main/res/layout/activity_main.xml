@@ -57,4 +57,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tries_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:gravity="center"
+        android:layout_weight="1" />
+
 </LinearLayout>
