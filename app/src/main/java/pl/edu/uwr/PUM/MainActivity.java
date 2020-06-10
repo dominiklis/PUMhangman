@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView _titleTextView;
@@ -17,6 +19,15 @@ public class MainActivity extends AppCompatActivity {
     private EditText _letterInput;
 
     private Button _sendLetterButton;
+
+    private ArrayList<String> _words;
+
+    private String _wordToGuess;
+    private char[] _wordToGuessCharArray;
+    private String _triedLetters;
+
+    private int triesLimit = 5;
+    private int triesLeft = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,5 +42,11 @@ public class MainActivity extends AppCompatActivity {
         _letterInput = findViewById(R.id.type_letter_input);
 
         _sendLetterButton = findViewById(R.id.send_letter_button);
+
+        _words = new ArrayList<>();
+        _words.add("accountant");
+        _words.add("central");
+        _words.add("professional");
+        _words.add("neighbourhood");
     }
 }
