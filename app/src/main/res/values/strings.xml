@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">289385_projekt</string>
+    <string name="send_button_text">SEND</string>
+    <string name="input_letter_hint">input letter</string>
 </resources>
