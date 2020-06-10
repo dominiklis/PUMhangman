@@ -45,7 +45,6 @@
             android:layout_weight=".7"
             android:maxLength="1" />
 
-
         <Button
             android:id="@+id/send_letter_button"
             android:layout_width="0dp"
@@ -64,5 +63,7 @@
         android:textSize="28sp"
         android:gravity="center"
         android:layout_weight="1" />
+
+
 
 </LinearLayout>
