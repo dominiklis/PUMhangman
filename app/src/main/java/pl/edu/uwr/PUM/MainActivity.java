@@ -3,9 +3,11 @@ package pl.edu.uwr.PUM;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private int triesLeft = 5;
 
     private final String _title = "HANGMAN";
+    private final String _notALetterInfo = "it's not a letter";
+    private final String _alreadyTypedInfo = "already typed";
+    private final String _winInfo = "YOU WON!";
+    private final String _loseInfo = "GAME OVER!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,16 @@ public class MainActivity extends AppCompatActivity {
         _words.add("central");
         _words.add("professional");
         _words.add("neighbourhood");
+
+        _sendLetterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (_letterInput.getText().length() > 0) {
+                    ShowLetter(_letterInput.getText().charAt(0));
+                }
+                _letterInput.getText().clear();
+            }
+        });
 
         StartGame();
     }
@@ -96,4 +112,61 @@ public class MainActivity extends AppCompatActivity {
         _triesLeftTextView.setText(new String(triesLeft + "/" + triesLimit));
     }
 
+    void ShowLetter(char l) {
+        // sprawdza czy użytkownik wprowadził literę
+        if (!Character.isLetter(l)) {
+            Toast.makeText(MainActivity.this, _notALetterInfo, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // zmiana na małą literę
+        l = Character.toLowerCase(l);
+
+        // informacja gdy gracz wprowadzi literę, która została już odsłonięta
+        if (_triedLetters.indexOf(l) >= 0) {
+            Toast.makeText(MainActivity.this, _alreadyTypedInfo, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // dodaje na listę użytych liter
+            _triedLetters += l + " ";
+            ShowTriedLetters();
+
+            // gdy litery nie ma w zgadywanym słowie odejmuje 1 od liczby pozostałych prób
+            if (_wordToGuess.indexOf(l) == -1) {
+                triesLeft -= 1;
+                UpdateTries();
+            }
+
+            // gdy jest to odsłania jej wszystkie wystąpienia
+            else {
+                for (int i = 1; i < _wordToGuess.length() - 1; i++) {
+                    if (l == _wordToGuess.charAt(i)) {
+                        _wordToGuessCharArray[i] = l;
+                    }
+                }
+
+                // gdy w słowie nie ma już liter do odslonięcia
+                if (!(new String(_wordToGuessCharArray).contains("_"))) {
+                    GameOver(_winInfo);
+                }
+
+                ShowWord();
+            }
+        }
+    }
+
+    void UpdateTries() {
+        // gdy gracz wyczerpał próby
+        if (triesLeft <= 0) {
+            GameOver(_loseInfo);
+        }
+
+        ShowTriesLeft();
+    }
+
+    void GameOver(String info) {
+        Toast.makeText(MainActivity.this, info, Toast.LENGTH_LONG).show();
+        _sendLetterButton.setEnabled(false);
+        _titleTextView.setText(info);
+    }
 }
