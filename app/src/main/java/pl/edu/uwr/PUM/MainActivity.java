@@ -14,72 +14,72 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView _titleTextView;
-    private TextView _triedLettersTextView;
-    private TextView _wordToGuessTextView;
-    private TextView _triesLeftTextView;
+    private TextView mTitleTextView;
+    private TextView mTriedLettersTextView;
+    private TextView mWordToGuessTextView;
+    private TextView mTriesLeftTextView;
 
-    private EditText _letterInput;
+    private EditText mLetterInput;
 
-    private Button _sendLetterButton;
-    private Button _restartButton;
-    private Button _newGameButton;
+    private Button mSendLetterButton;
+    private Button mRestartButton;
+    private Button mNewGameButton;
 
-    private ArrayList<String> _words;
+    private ArrayList<String> mWords;
 
-    private String _wordToGuess;
-    private char[] _wordToGuessCharArray;
-    private String _triedLetters;
+    private String mWordToGuess;
+    private char[] mWordToGuessCharArray;
+    private String mTriedLetters;
 
-    private int triesLimit = 5;
-    private int triesLeft = 5;
+    private int mTriesLimit = 5;
+    private int mTriesLeft = 5;
 
-    private final String _title = "HANGMAN";
-    private final String _notALetterInfo = "it's not a letter";
-    private final String _alreadyTypedInfo = "already typed";
-    private final String _winInfo = "YOU WON!";
-    private final String _loseInfo = "GAME OVER!";
+    private final String mTitle = "HANGMAN";
+    private final String mNotALetterInfo = "it's not a letter";
+    private final String mAlreadyTypedInfo = "already typed";
+    private final String mWinInfo = "YOU WON!";
+    private final String mLoseInfo = "GAME OVER!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _titleTextView = findViewById(R.id.title_text);
-        _triedLettersTextView = findViewById(R.id.tried_letters);
-        _wordToGuessTextView = findViewById(R.id.word_to_guess);
-        _triesLeftTextView = findViewById(R.id.tries_left);
+        mTitleTextView = findViewById(R.id.title_text);
+        mTriedLettersTextView = findViewById(R.id.tried_letters);
+        mWordToGuessTextView = findViewById(R.id.word_to_guess);
+        mTriesLeftTextView = findViewById(R.id.tries_left);
 
-        _letterInput = findViewById(R.id.type_letter_input);
+        mLetterInput = findViewById(R.id.type_letter_input);
 
-        _sendLetterButton = findViewById(R.id.send_letter_button);
-        _restartButton = findViewById(R.id.restart_button);
-        _newGameButton = findViewById(R.id.new_game_button);
+        mSendLetterButton = findViewById(R.id.send_letter_button);
+        mRestartButton = findViewById(R.id.restart_button);
+        mNewGameButton = findViewById(R.id.new_game_button);
 
-        _words = new ArrayList<>();
-        _words.add("accountant");
-        _words.add("central");
-        _words.add("professional");
-        _words.add("neighbourhood");
+        mWords = new ArrayList<>();
+        mWords.add("accountant");
+        mWords.add("central");
+        mWords.add("professional");
+        mWords.add("neighbourhood");
 
-        _sendLetterButton.setOnClickListener(new View.OnClickListener() {
+        mSendLetterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (_letterInput.getText().length() > 0) {
-                    ShowLetter(_letterInput.getText().charAt(0));
+                if (mLetterInput.getText().length() > 0) {
+                    ShowLetter(mLetterInput.getText().charAt(0));
                 }
-                _letterInput.getText().clear();
+                mLetterInput.getText().clear();
             }
         });
 
-        _restartButton.setOnClickListener(new View.OnClickListener() {
+        mRestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Restart();
             }
         });
 
-        _newGameButton.setOnClickListener(new View.OnClickListener() {
+        mNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NewGame();
@@ -95,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
         SetUpGame();
     }
     void Restart() {
-        SetWord(_wordToGuess, false);
+        SetWord(mWordToGuess, false);
         ShowWord();
         SetUpGame();
     }
 
     void NewGame() {
-        SetWord(_wordToGuess, true);
+        SetWord(mWordToGuess, true);
         ShowWord();
         SetUpGame();
     }
@@ -109,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
     void SetWord() {
         // wybiera losowe słowo z listy
         Random random = new Random();
-        _wordToGuess = _words.get(random.nextInt(_words.size()));
-        _wordToGuessCharArray = _wordToGuess.toCharArray();
+        mWordToGuess = mWords.get(random.nextInt(mWords.size()));
+        mWordToGuessCharArray = mWordToGuess.toCharArray();
 
         // ukrywa litery z wylosowanego słowa oprócz pierwszej i ostatniej
-        for (int i = 0; i < _wordToGuessCharArray.length; i++) {
-            if (_wordToGuessCharArray[i] != _wordToGuessCharArray[0] && _wordToGuessCharArray[i] != _wordToGuessCharArray[_wordToGuessCharArray.length - 1]) {
-                _wordToGuessCharArray[i] = '_';
+        for (int i = 0; i < mWordToGuessCharArray.length; i++) {
+            if (mWordToGuessCharArray[i] != mWordToGuessCharArray[0] && mWordToGuessCharArray[i] != mWordToGuessCharArray[mWordToGuessCharArray.length - 1]) {
+                mWordToGuessCharArray[i] = '_';
             }
         }
     }
@@ -125,47 +125,47 @@ public class MainActivity extends AppCompatActivity {
         Random random = new Random();
 
         if (findOther) {
-            String otherWord = _words.get(random.nextInt(_words.size()));
+            String otherWord = mWords.get(random.nextInt(mWords.size()));
             while (word.equals(otherWord)) {
-                otherWord = _words.get(random.nextInt(_words.size()));
+                otherWord = mWords.get(random.nextInt(mWords.size()));
             }
             word = otherWord;
         }
-        _wordToGuess = word;
-        _wordToGuessCharArray = _wordToGuess.toCharArray();
+        mWordToGuess = word;
+        mWordToGuessCharArray = mWordToGuess.toCharArray();
 
-        for (int i = 0; i < _wordToGuessCharArray.length; i++) {
-            if (_wordToGuessCharArray[i] != _wordToGuessCharArray[0] && _wordToGuessCharArray[i] != _wordToGuessCharArray[_wordToGuessCharArray.length - 1]) {
-                _wordToGuessCharArray[i] = '_';
+        for (int i = 0; i < mWordToGuessCharArray.length; i++) {
+            if (mWordToGuessCharArray[i] != mWordToGuessCharArray[0] && mWordToGuessCharArray[i] != mWordToGuessCharArray[mWordToGuessCharArray.length - 1]) {
+                mWordToGuessCharArray[i] = '_';
             }
         }
     }
 
     void ShowWord() {
-        _wordToGuessTextView.setText(new String(_wordToGuessCharArray));
+        mWordToGuessTextView.setText(new String(mWordToGuessCharArray));
     }
 
     void SetUpGame() {
-        _triedLetters = " ";
+        mTriedLetters = " ";
         ShowTriedLetters();
-        triesLeft = triesLimit;
+        mTriesLeft = mTriesLimit;
         ShowTriesLeft();
-        _sendLetterButton.setEnabled(true);
-        _titleTextView.setText(_title);
+        mSendLetterButton.setEnabled(true);
+        mTitleTextView.setText(mTitle);
     }
 
     void ShowTriedLetters() {
-        _triedLettersTextView.setText(_triedLetters);
+        mTriedLettersTextView.setText(mTriedLetters);
     }
 
     void ShowTriesLeft() {
-        _triesLeftTextView.setText(new String(triesLeft + "/" + triesLimit));
+        mTriesLeftTextView.setText(new String(mTriesLeft + "/" + mTriesLimit));
     }
 
     void ShowLetter(char l) {
         // sprawdza czy użytkownik wprowadził literę
         if (!Character.isLetter(l)) {
-            Toast.makeText(MainActivity.this, _notALetterInfo, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, mNotALetterInfo, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -173,31 +173,31 @@ public class MainActivity extends AppCompatActivity {
         l = Character.toLowerCase(l);
 
         // informacja gdy gracz wprowadzi literę, która została już odsłonięta
-        if (_triedLetters.indexOf(l) >= 0) {
-            Toast.makeText(MainActivity.this, _alreadyTypedInfo, Toast.LENGTH_SHORT).show();
+        if (mTriedLetters.indexOf(l) >= 0) {
+            Toast.makeText(MainActivity.this, mAlreadyTypedInfo, Toast.LENGTH_SHORT).show();
         }
         else {
             // dodaje na listę użytych liter
-            _triedLetters += l + " ";
+            mTriedLetters += l + " ";
             ShowTriedLetters();
 
             // gdy litery nie ma w zgadywanym słowie odejmuje 1 od liczby pozostałych prób
-            if (_wordToGuess.indexOf(l) == -1) {
-                triesLeft -= 1;
+            if (mWordToGuess.indexOf(l) == -1) {
+                mTriesLeft -= 1;
                 UpdateTries();
             }
 
             // gdy jest to odsłania jej wszystkie wystąpienia
             else {
-                for (int i = 1; i < _wordToGuess.length() - 1; i++) {
-                    if (l == _wordToGuess.charAt(i)) {
-                        _wordToGuessCharArray[i] = l;
+                for (int i = 1; i < mWordToGuess.length() - 1; i++) {
+                    if (l == mWordToGuess.charAt(i)) {
+                        mWordToGuessCharArray[i] = l;
                     }
                 }
 
                 // gdy w słowie nie ma już liter do odslonięcia
-                if (!(new String(_wordToGuessCharArray).contains("_"))) {
-                    GameOver(_winInfo);
+                if (!(new String(mWordToGuessCharArray).contains("_"))) {
+                    GameOver(mWinInfo);
                 }
 
                 ShowWord();
@@ -207,8 +207,8 @@ public class MainActivity extends AppCompatActivity {
 
     void UpdateTries() {
         // gdy gracz wyczerpał próby
-        if (triesLeft <= 0) {
-            GameOver(_loseInfo);
+        if (mTriesLeft <= 0) {
+            GameOver(mLoseInfo);
         }
 
         ShowTriesLeft();
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
     void GameOver(String info) {
         Toast.makeText(MainActivity.this, info, Toast.LENGTH_LONG).show();
-        _sendLetterButton.setEnabled(false);
-        _titleTextView.setText(info);
+        mSendLetterButton.setEnabled(false);
+        mTitleTextView.setText(info);
     }
 }
