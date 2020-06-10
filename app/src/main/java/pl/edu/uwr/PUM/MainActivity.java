@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText _letterInput;
 
     private Button _sendLetterButton;
+    private Button _restartButton;
+    private Button _newGameButton;
 
     private ArrayList<String> _words;
 
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         _letterInput = findViewById(R.id.type_letter_input);
 
         _sendLetterButton = findViewById(R.id.send_letter_button);
+        _restartButton = findViewById(R.id.restart_button);
+        _newGameButton = findViewById(R.id.new_game_button);
 
         _words = new ArrayList<>();
         _words.add("accountant");
@@ -68,11 +72,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        _restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Restart();
+            }
+        });
+
+        _newGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewGame();
+            }
+        });
+
         StartGame();
     }
 
     void StartGame() {
         SetWord();
+        ShowWord();
+        SetUpGame();
+    }
+    void Restart() {
+        SetWord(_wordToGuess, false);
+        ShowWord();
+        SetUpGame();
+    }
+
+    void NewGame() {
+        SetWord(_wordToGuess, true);
         ShowWord();
         SetUpGame();
     }
@@ -84,6 +113,27 @@ public class MainActivity extends AppCompatActivity {
         _wordToGuessCharArray = _wordToGuess.toCharArray();
 
         // ukrywa litery z wylosowanego słowa oprócz pierwszej i ostatniej
+        for (int i = 0; i < _wordToGuessCharArray.length; i++) {
+            if (_wordToGuessCharArray[i] != _wordToGuessCharArray[0] && _wordToGuessCharArray[i] != _wordToGuessCharArray[_wordToGuessCharArray.length - 1]) {
+                _wordToGuessCharArray[i] = '_';
+            }
+        }
+    }
+
+    // gdy gracz kliknie restart to ponownie ustawi te same słowo, gdy new game to wylosuje inne niż te w poprzedniej grze
+    void SetWord(String word, boolean findOther) {
+        Random random = new Random();
+
+        if (findOther) {
+            String otherWord = _words.get(random.nextInt(_words.size()));
+            while (word.equals(otherWord)) {
+                otherWord = _words.get(random.nextInt(_words.size()));
+            }
+            word = otherWord;
+        }
+        _wordToGuess = word;
+        _wordToGuessCharArray = _wordToGuess.toCharArray();
+
         for (int i = 0; i < _wordToGuessCharArray.length; i++) {
             if (_wordToGuessCharArray[i] != _wordToGuessCharArray[0] && _wordToGuessCharArray[i] != _wordToGuessCharArray[_wordToGuessCharArray.length - 1]) {
                 _wordToGuessCharArray[i] = '_';
