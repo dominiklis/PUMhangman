@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private int triesLimit = 5;
     private int triesLeft = 5;
 
+    private final String _title = "HANGMAN";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,5 +51,49 @@ public class MainActivity extends AppCompatActivity {
         _words.add("central");
         _words.add("professional");
         _words.add("neighbourhood");
+
+        StartGame();
     }
+
+    void StartGame() {
+        SetWord();
+        ShowWord();
+        SetUpGame();
+    }
+
+    void SetWord() {
+        // wybiera losowe słowo z listy
+        Random random = new Random();
+        _wordToGuess = _words.get(random.nextInt(_words.size()));
+        _wordToGuessCharArray = _wordToGuess.toCharArray();
+
+        // ukrywa litery z wylosowanego słowa oprócz pierwszej i ostatniej
+        for (int i = 0; i < _wordToGuessCharArray.length; i++) {
+            if (_wordToGuessCharArray[i] != _wordToGuessCharArray[0] && _wordToGuessCharArray[i] != _wordToGuessCharArray[_wordToGuessCharArray.length - 1]) {
+                _wordToGuessCharArray[i] = '_';
+            }
+        }
+    }
+
+    void ShowWord() {
+        _wordToGuessTextView.setText(new String(_wordToGuessCharArray));
+    }
+
+    void SetUpGame() {
+        _triedLetters = " ";
+        ShowTriedLetters();
+        triesLeft = triesLimit;
+        ShowTriesLeft();
+        _sendLetterButton.setEnabled(true);
+        _titleTextView.setText(_title);
+    }
+
+    void ShowTriedLetters() {
+        _triedLettersTextView.setText(_triedLetters);
+    }
+
+    void ShowTriesLeft() {
+        _triesLeftTextView.setText(new String(triesLeft + "/" + triesLimit));
+    }
+
 }
