@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_margin="6dp">
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="52sp"
+        android:gravity="center"
+        android:layout_weight="2"/>
+
+    <TextView
+        android:id="@+id/tried_letters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/word_to_guess"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1" >
+
+        <EditText
+            android:id="@+id/type_letter_input"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:hint="@string/input_letter_hint"
+            android:layout_weight=".7"
+            android:maxLength="1" />
+
+        <Button
+            android:id="@+id/send_letter_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/send_button_text"
+            android:gravity="center"
+            android:layout_weight=".3" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tries_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/restart_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/restart_button_text"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/new_game_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/newgame_button_text"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</LinearLayout>
