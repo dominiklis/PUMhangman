@@ -12,4 +12,9 @@
     <string name="you_won_text">YOU WON!</string>
     <string name="game_over_text">GAME OVER!</string>
 
+    <string name="word1">accountant</string>
+    <string name="word2">central</string>
+    <string name="word3">professional</string>
+    <string name="word4">neighbourhood</string>
+
 </resources>

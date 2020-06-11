@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mRestartButton;
     private Button mNewGameButton;
 
-    private ArrayList<String> mWords;
+    private ArrayList<Word> mWords;
 
     private String mWordToGuess;
     private char[] mWordToGuessCharArray;
@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         mNewGameButton = findViewById(R.id.new_game_button);
 
         mWords = new ArrayList<>();
-        mWords.add("accountant");
-        mWords.add("central");
-        mWords.add("professional");
-        mWords.add("neighbourhood");
+        mWords.add(new Word(R.string.word1));
+        mWords.add(new Word(R.string.word2));
+        mWords.add(new Word(R.string.word3));
+        mWords.add(new Word(R.string.word4));
 
         mSendLetterButton.setOnClickListener(new View.OnClickListener() {
             @Override
