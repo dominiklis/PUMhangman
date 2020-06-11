@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Word> mWords;
 
+    private Word mCurrentWord;
     private String mWordToGuess;
     private char[] mWordToGuessCharArray;
     private String mTriedLetters;
@@ -90,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
         SetUpGame();
     }
     void Restart() {
-        SetWord(mWordToGuess, false);
+        SetWord(mCurrentWord, false);
         ShowWord();
         SetUpGame();
     }
 
     void NewGame() {
-        SetWord(mWordToGuess, true);
+        SetWord(mCurrentWord, true);
         ShowWord();
         SetUpGame();
     }
@@ -104,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
     void SetWord() {
         // wybiera losowe słowo z listy
         Random random = new Random();
-        mWordToGuess = mWords.get(random.nextInt(mWords.size()));
+        mCurrentWord = mWords.get(random.nextInt(mWords.size()));
+        mWordToGuess = getResources().getString(mCurrentWord.getWordId());
         mWordToGuessCharArray = mWordToGuess.toCharArray();
 
         // ukrywa litery z wylosowanego słowa oprócz pierwszej i ostatniej
@@ -119,17 +121,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // gdy gracz kliknie restart to ponownie ustawi te same słowo, gdy new game to wylosuje inne niż te w poprzedniej grze
-    void SetWord(String word, boolean findOther) {
+    void SetWord(Word word, boolean findOther) {
         Random random = new Random();
 
         if (findOther) {
-            String otherWord = mWords.get(random.nextInt(mWords.size()));
-            while (word.equals(otherWord)) {
+            Word otherWord = mWords.get(random.nextInt(mWords.size()));
+            while (word == otherWord) {
                 otherWord = mWords.get(random.nextInt(mWords.size()));
             }
             word = otherWord;
         }
-        mWordToGuess = word;
+
+        mCurrentWord = word;
+        mWordToGuess = getResources().getString(mCurrentWord.getWordId());
         mWordToGuessCharArray = mWordToGuess.toCharArray();
 
         for (int i = 0; i < mWordToGuessCharArray.length; i++) {
