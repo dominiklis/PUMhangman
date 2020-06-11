@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private String mWordToGuess;
     private char[] mWordToGuessCharArray;
     private String mTriedLetters;
+    private char[] mFirstAndLastLetter = new char[2];
 
     private int mTriesLimit = 5;
     private int mTriesLeft = 5;
@@ -118,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                 mWordToGuessCharArray[i] = '_';
             }
         }
+
+        mFirstAndLastLetter[0] = mWordToGuessCharArray[0];
+        mFirstAndLastLetter[1] = mWordToGuessCharArray[mWordToGuessCharArray.length - 1];
     }
 
     // gdy gracz kliknie restart to ponownie ustawi te same słowo, gdy new game to wylosuje inne niż te w poprzedniej grze
@@ -139,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
                 mWordToGuessCharArray[i] = '_';
             }
         }
+
+        mFirstAndLastLetter[0] = mWordToGuessCharArray[0];
+        mFirstAndLastLetter[1] = mWordToGuessCharArray[mWordToGuessCharArray.length - 1];
     }
 
     void ShowWord() {
@@ -172,8 +179,12 @@ public class MainActivity extends AppCompatActivity {
         // zmiana na małą literę
         l = Character.toLowerCase(l);
 
+        // gdy gracz wprowadzi odsłoniętą od początku literę
+        if (l == mFirstAndLastLetter[0] || l == mFirstAndLastLetter[1]) {
+            Toast.makeText(MainActivity.this, R.string.first_or_last_letter_info, Toast.LENGTH_SHORT).show();
+        }
         // informacja gdy gracz wprowadzi literę, która została już odsłonięta
-        if (mTriedLetters.indexOf(l) >= 0) {
+        else if (mTriedLetters.indexOf(l) >= 0) {
             Toast.makeText(MainActivity.this, R.string.already_typed_info, Toast.LENGTH_SHORT).show();
         }
         else {

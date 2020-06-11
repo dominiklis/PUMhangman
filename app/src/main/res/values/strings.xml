@@ -8,6 +8,7 @@
     <string name="title_text">HANGMAN</string>
     <string name="not_a_letter_info">it\'s not a letter</string>
     <string name="already_typed_info">already typed</string>
+    <string name="first_or_last_letter_info">already revealed</string>
     <string name="you_won_text">YOU WON!</string>
     <string name="game_over_text">GAME OVER!</string>
 
