@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,38 +26,54 @@ public class MainActivity extends AppCompatActivity {
     private Button mRestartButton;
     private Button mNewGameButton;
 
-    private ArrayList<Word> mWords;
+    private ArrayList<Word> mWords = new ArrayList<>((
+            Arrays.asList(
+                    new Word(R.string.word1),
+                    new Word(R.string.word2),
+                    new Word(R.string.word3),
+                    new Word(R.string.word4))
+    ));
 
     private Word mCurrentWord;
+    private static final String WORD_INDEX = "wordindex";
+
     private String mWordToGuess;
+
     private char[] mWordToGuessCharArray;
     private String mTriedLetters;
+    private static final String TRIED_LETTERS_INDEX = "triedletter";
+
     private char[] mFirstAndLastLetter = new char[2];
+
+    private boolean mFirstRun = true;
 
     private final int mTriesLimit = 5;
     private int mTriesLeft = 5;
+    private static final String TRIES_LEFT_INDEX = "triesleft";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mFirstRun = false;
+            mCurrentWord = mWords.get(savedInstanceState.getInt(WORD_INDEX, 0));
+            mTriedLetters = savedInstanceState.getString(TRIED_LETTERS_INDEX);
+            mTriesLeft = savedInstanceState.getInt(TRIES_LEFT_INDEX, 5);
+        }
+
         setContentView(R.layout.activity_main);
 
-        mTitleTextView = findViewById(R.id.title_text);
-        mTriedLettersTextView = findViewById(R.id.tried_letters);
-        mWordToGuessTextView = findViewById(R.id.word_to_guess);
-        mTriesLeftTextView = findViewById(R.id.tries_left);
+        mTitleTextView = (TextView) findViewById(R.id.title_text);
+        mTriedLettersTextView = (TextView) findViewById(R.id.tried_letters);
+        mWordToGuessTextView = (TextView) findViewById(R.id.word_to_guess);
+        mTriesLeftTextView = (TextView) findViewById(R.id.tries_left);
 
-        mLetterInput = findViewById(R.id.type_letter_input);
+        mLetterInput = (EditText) findViewById(R.id.type_letter_input);
 
-        mSendLetterButton = findViewById(R.id.send_letter_button);
-        mRestartButton = findViewById(R.id.restart_button);
-        mNewGameButton = findViewById(R.id.new_game_button);
-
-        mWords = new ArrayList<>();
-        mWords.add(new Word(R.string.word1));
-        mWords.add(new Word(R.string.word2));
-        mWords.add(new Word(R.string.word3));
-        mWords.add(new Word(R.string.word4));
+        mSendLetterButton = (Button) findViewById(R.id.send_letter_button);
+        mRestartButton = (Button) findViewById(R.id.restart_button);
+        mNewGameButton = (Button) findViewById(R.id.new_game_button);
 
         mSendLetterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +99,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        StartGame();
+        if (mFirstRun) {
+            StartGame();
+        }
+        else {
+            RestoreGame();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(WORD_INDEX, mWords.indexOf(mCurrentWord));
+        savedInstanceState.putString(TRIED_LETTERS_INDEX, mTriedLetters);
+        savedInstanceState.putInt(TRIES_LEFT_INDEX, mTriesLeft);
     }
 
     void StartGame() {
         SetWord();
         ShowWord();
         SetUpGame();
+        mFirstRun = false;
     }
+
     void Restart() {
         SetWord(mCurrentWord, false);
         ShowWord();
@@ -100,6 +133,28 @@ public class MainActivity extends AppCompatActivity {
         SetWord(mCurrentWord, true);
         ShowWord();
         SetUpGame();
+    }
+
+    void RestoreGame() {
+        mWordToGuess = getResources().getString(mCurrentWord.getWordId());
+        mWordToGuessCharArray = mWordToGuess.toCharArray();
+
+        for (int i = 0; i < mWordToGuessCharArray.length; i++) {
+            if (mWordToGuessCharArray[i] != mWordToGuessCharArray[0] &&
+                    mWordToGuessCharArray[i] != mWordToGuessCharArray[mWordToGuessCharArray.length - 1] &&
+                    mTriedLetters.indexOf(mWordToGuessCharArray[i]) < 0) {
+                mWordToGuessCharArray[i] = '_';
+            }
+        }
+
+        mFirstAndLastLetter[0] = mWordToGuessCharArray[0];
+        mFirstAndLastLetter[1] = mWordToGuessCharArray[mWordToGuessCharArray.length - 1];
+
+        mWordToGuessTextView.setText(new String(mWordToGuessCharArray));
+        mTriedLettersTextView.setText(mTriedLetters);
+        mTriesLeftTextView.setText(new String(mTriesLeft + "/" + mTriesLimit));
+        mSendLetterButton.setEnabled(true);
+        mTitleTextView.setText(R.string.title_text);
     }
 
     void SetWord() {
