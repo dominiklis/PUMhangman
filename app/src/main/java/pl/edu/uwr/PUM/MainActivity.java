@@ -35,12 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private int mTriesLimit = 5;
     private int mTriesLeft = 5;
 
-    private final String mTitle = "HANGMAN";
-    private final String mNotALetterInfo = "it's not a letter";
-    private final String mAlreadyTypedInfo = "already typed";
-    private final String mWinInfo = "YOU WON!";
-    private final String mLoseInfo = "GAME OVER!";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
