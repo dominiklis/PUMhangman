@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void GameOver(String info) {
-        Toast.makeText(MainActivity.this, info, Toast.LENGTH_LONG).show();
         mSendLetterButton.setEnabled(false);
         mTitleTextView.setText(info);
     }
