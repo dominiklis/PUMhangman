@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private String mTriedLetters;
     private char[] mFirstAndLastLetter = new char[2];
 
-    private int mTriesLimit = 5;
+    private final int mTriesLimit = 5;
     private int mTriesLeft = 5;
 
     @Override
