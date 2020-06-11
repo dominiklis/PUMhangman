@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         mTriesLeft = mTriesLimit;
         ShowTriesLeft();
         mSendLetterButton.setEnabled(true);
-        mTitleTextView.setText(mTitle);
+        mTitleTextView.setText(R.string.title_text);
     }
 
     void ShowTriedLetters() {
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     void ShowLetter(char l) {
         // sprawdza czy użytkownik wprowadził literę
         if (!Character.isLetter(l)) {
-            Toast.makeText(MainActivity.this, mNotALetterInfo, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.not_a_letter_info, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
         // informacja gdy gracz wprowadzi literę, która została już odsłonięta
         if (mTriedLetters.indexOf(l) >= 0) {
-            Toast.makeText(MainActivity.this, mAlreadyTypedInfo, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, R.string.already_typed_info, Toast.LENGTH_SHORT).show();
         }
         else {
             // dodaje na listę użytych liter
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // gdy w słowie nie ma już liter do odslonięcia
                 if (!(new String(mWordToGuessCharArray).contains("_"))) {
-                    GameOver(mWinInfo);
+                    GameOver(getResources().getString(R.string.you_won_text));
                 }
 
                 ShowWord();
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     void UpdateTries() {
         // gdy gracz wyczerpał próby
         if (mTriesLeft <= 0) {
-            GameOver(mLoseInfo);
+            GameOver(getResources().getString(R.string.game_over_text));
         }
 
         ShowTriesLeft();
